@@ -1,0 +1,88 @@
+//-----------C++ ANNOTATIONS-----------//
+
+//------------BEGIN------------//
+
+FUNCTION POINTER:
+
+DECLARATION: return_type (*ptrfuntion)(FUNCTION_PARAMETERS);
+ASSIGNATION: ptrfuntion = function;
+CALL: ptrfuntion(ARGUMENTS);
+
+//------------END------------//
+
+//------------BEGIN------------//
+
+CLASS FUNCTION POINTER:
+
+DECLARATION: return_type (Class::*ptrfuntion)(FUNCTION_PARAMETERS);
+ASSIGNATION: ptrfuntion = &Class::function
+CALL: (instance_class.*ptrfuntion)(ARGUMENTS);
+
+//------------END------------//
+
+//------------BEGIN------------//
+
+KEY WITH FUNCTION ARRAY:
+
+STRUCTURE/CLASS:
+
+typedef struct KeyFunction
+{
+	type key;
+	return_type (*function)(FUNCTION_PARAMETERS);
+}KeyFunction;
+
+ARRAY ASSIGNATION:
+
+KeyFunction array_key_function[] =
+{
+	{ KEY_1, FUNCTION1 },
+	{ KEY_2, FUNCTION2 },
+	{ KEY_3, FUNCTION3 },
+	{ NULL, nullptr },  //NULL TO END
+};
+
+CALL:
+
+KeyFunction *akf_iterator = array_key_function;
+
+while(akf_iterator->key != NULL)
+{
+	if(akf_iterator->key == key_pressed)
+	{
+		(akf_iterator->function)(ARGUMENTS);
+		break;
+	}	
+}
+
+//------------END------------//
+
+//------------BEGIN------------//
+
+PATTERN RAII:
+
+CLASS PatternRAII
+{
+	Object *object;
+
+	public:
+
+		PatternRAII(PARAMETERS)
+		:	object(nullptr) 
+		{
+			object = new Object(PARAMETERS);
+		}
+
+		~PatternRAII()
+		{
+			if(object)
+			{
+				delete object;
+				object = nullptr;
+			}
+		}
+
+		Object *getObject() { return object; }
+}
+
+//------------END------------//
